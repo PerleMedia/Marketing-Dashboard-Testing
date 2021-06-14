@@ -50,7 +50,7 @@ gapi.analytics.ready(function() {
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart() {
+  function renderWeekOverWeekChart(startDate, endDate) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
@@ -59,8 +59,8 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': data["start-date"].format('YYYY-MM-DD'),
-      'end-date': data["end-date"].format('YYYY-MM-DD')
+      'start-date': startDate.format('YYYY-MM-DD'),
+      'end-date': endDate.format('YYYY-MM-DD')
     });
 
     var lastWeek = query({
