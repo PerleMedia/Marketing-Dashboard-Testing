@@ -167,8 +167,8 @@ gapi.analytics.ready(function() {
       'metrics': 'ga:pageviews',
       'sort': '-ga:pageviews',
       'max-results': 5,
-      'start-date': '3daysAgo',
-      'end-date': '2daysAgo'
+      'start-date': '100daysAgo',
+      'end-date': '99daysAgo'
     })
     .then(function(response) {
 
