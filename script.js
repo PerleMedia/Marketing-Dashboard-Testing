@@ -4,7 +4,10 @@ const developerClientID = '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.go
 // Begin Analytics Embed
 gapi.analytics.ready(function() {
   if (gapi.analytics.auth.isAuthorized() == false ){
-    document.getElementById('main').style.display = "none";
+    const handle = setTimeout(() => {
+      document.getElementById('main').style.display = "none";
+      clearTimeout(handle);
+    }, 4000);
   } else {
     document.getElementById('main').style.display = "block";
   }
