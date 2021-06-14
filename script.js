@@ -57,25 +57,10 @@ gapi.analytics.ready(function() {
   .execute();
 
 
-  /**
-   * Update the activeUsers component, the Chartjs charts, and the dashboard
-   * title whenever the user changes the view.
-   */
-
-    var title = document.getElementById('view-name');
-    title.textContent = data.property.name + ' (' + data.view.name + ')';
-
-    // Start tracking active users for this view.
-    activeUsers.set(data).execute();
-
-    // Render all the of charts for this view.
-    renderWeekOverWeekChart(data.ids);
-    renderYearOverYearChart(data.ids);
-    renderTopBrowsersChart(data.ids);
-    renderTopCountriesChart(data.ids);
-
-
-
+    renderWeekOverWeekChart();
+    renderYearOverYearChart();
+    renderTopBrowsersChart();
+    renderTopCountriesChart();
   /**
    * Draw the a chart.js line chart with data from the specified view that
    * overlays session data for the current week over session data for the
