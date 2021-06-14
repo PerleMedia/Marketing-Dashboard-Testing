@@ -1,4 +1,5 @@
 const analyticsViewID = 'ga:207443712';
+const developerClientID = '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.googleusercontent.com';
 
 
 // Begin Analytics Embed
@@ -11,7 +12,7 @@ gapi.analytics.ready(function() {
    */
   gapi.analytics.auth.authorize({
     container: 'embed-api-auth-container',
-    clientid: '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.googleusercontent.com'
+    clientid: developerClientID
   });
 
 
@@ -121,13 +122,13 @@ gapi.analytics.ready(function() {
    * overlays session data for the current year over session data for the
    * previous year, grouped by month.
    */
-  function renderYearOverYearChart(ids) {
+  function renderYearOverYearChart() {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
 
     var thisYear = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:month,ga:nthMonth',
       'metrics': 'ga:users',
       'start-date': moment(now).date(1).month(0).format('YYYY-MM-DD'),
@@ -135,7 +136,7 @@ gapi.analytics.ready(function() {
     });
 
     var lastYear = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:month,ga:nthMonth',
       'metrics': 'ga:users',
       'start-date': moment(now).subtract(1, 'year').date(1).month(0)
@@ -188,10 +189,10 @@ gapi.analytics.ready(function() {
    * Draw the a chart.js doughnut chart with data from the specified view that
    * show the top 5 browsers over the past seven days.
    */
-  function renderTopBrowsersChart(ids) {
+  function renderTopBrowsersChart() {
 
     query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:browser',
       'metrics': 'ga:pageviews',
       'sort': '-ga:pageviews',
@@ -217,9 +218,9 @@ gapi.analytics.ready(function() {
    * compares sessions from mobile, desktop, and tablet over the past seven
    * days.
    */
-  function renderTopCountriesChart(ids) {
+  function renderTopCountriesChart() {
     query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:country',
       'metrics': 'ga:sessions',
       'sort': '-ga:sessions',
