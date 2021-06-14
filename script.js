@@ -16,16 +16,10 @@ gapi.analytics.ready(function() {
     clientid: developerClientID
   });
 
-    renderWeekOverWeekChart();
-    renderYearOverYearChart();
-    renderTopBrowsersChart();
-    renderTopCountriesChart();
-    renderTopDevicesChart();
-
 
     var dateRange1 = {
-      'start-date': '7daysAgo',
-      'end-date': '2daysAgo'
+      'start-date': '8daysAgo',
+      'end-date': '1daysAgo'
     };
 
     var dateRangeSelector1 = new gapi.analytics.ext.DateRangeSelector({
@@ -40,6 +34,11 @@ gapi.analytics.ready(function() {
       // Update the "from" dates text.
       var datefield = document.getElementById('from-dates');
       datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
+
+      renderWeekOverWeekChart(data['start-date'], data['end-date']);
+      renderYearOverYearChart(data);
+      renderTopBrowsersChart(data);
+      renderTopCountriesChart(data);
     });
 
 
@@ -49,7 +48,7 @@ gapi.analytics.ready(function() {
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart() {
+  function renderWeekOverWeekChart(startDate, endDate) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
@@ -58,8 +57,8 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': dateRange1.['start-date'],
-      'end-date': moment(now).format('YYYY-MM-DD')
+      'start-date': startDate,
+      'end-date': endDate
     });
 
     var lastWeek = query({
