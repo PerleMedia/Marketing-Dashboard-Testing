@@ -25,7 +25,7 @@ gapi.analytics.ready(function() {
 
     var dateRange1 = {
       'start-date': '8daysAgo',
-      'end-date': '1dayAgo'
+      'end-date': '1daysAgo'
     };
 
     var dateRangeSelector1 = new gapi.analytics.ext.DateRangeSelector({
@@ -58,7 +58,7 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': moment(now).subtract(1, 'day').day(0).format('YYYY-MM-DD'),
+      'start-date': dateRange1.['start-date'],
       'end-date': moment(now).format('YYYY-MM-DD')
     });
 
