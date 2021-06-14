@@ -17,6 +17,7 @@ gapi.analytics.ready(function() {
   });
 
   renderWeekOverWeekChart();
+  renderWeekOverWeekChart2();
   renderYearOverYearChart();
   renderTopBrowsersChart();
   renderTopCountriesChart();
@@ -39,7 +40,7 @@ gapi.analytics.ready(function() {
       var datefield = document.getElementById('from-dates');
       datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
 
-      renderWeekOverWeekChart(data['start-date'], data['end-date']);
+      renderWeekOverWeekChart2(data['start-date'], data['end-date']);
       renderYearOverYearChart();
       renderTopBrowsersChart();
       renderTopCountriesChart();
@@ -54,7 +55,67 @@ gapi.analytics.ready(function() {
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart(startDate, endDate) {
+  function renderWeekOverWeekChart() {
+
+    // Adjust `now` to experiment with different days, for testing only...
+    var now = moment(); // .subtract(3, 'day');
+
+    var thisWeek = query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:date,ga:nthDay',
+      'metrics': 'ga:sessions',
+      'start-date': '7daysAgo',
+      'end-date': 'today'
+    });
+
+    var lastWeek = query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:date,ga:nthDay',
+      'metrics': 'ga:sessions',
+      'start-date': '14daysAgo',
+      'end-date': '8daysAgo'
+    });
+
+    Promise.all([thisWeek, lastWeek]).then(function(results) {
+
+      var data1 = results[0].rows.map(function(row) { return +row[2]; });
+      var data2 = results[1].rows.map(function(row) { return +row[2]; });
+      var labels = results[1].rows.map(function(row) { return +row[0]; });
+
+
+      labels = labels.map(function(label) {
+        return moment(label, 'YYYYMMDD').format('ddd');
+      });
+
+      var data = {
+        labels : labels,
+        datasets : [
+          {
+            label: 'Last Week',
+            fillColor : 'rgba(220,220,220,0.5)',
+            strokeColor : 'rgba(220,220,220,1)',
+            pointColor : 'rgba(220,220,220,1)',
+            pointStrokeColor : '#fff',
+            data : data2
+          },
+          {
+            label: 'This Week',
+            fillColor : 'rgba(151,187,205,0.5)',
+            strokeColor : 'rgba(151,187,205,1)',
+            pointColor : 'rgba(151,187,205,1)',
+            pointStrokeColor : '#fff',
+            data : data1
+          }
+        ]
+      };
+
+      new Chart(makeCanvas('chart-1-container')).Line(data);
+      generateLegend('legend-1-container', data.datasets);
+    });
+  }
+
+
+  function renderWeekOverWeekChart2(startDate, endDate) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
