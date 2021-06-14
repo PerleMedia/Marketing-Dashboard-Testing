@@ -59,8 +59,8 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': startDate.format('YYYY-MM-DD'),
-      'end-date': endDate.format('YYYY-MM-DD')
+      'start-date': startDate,
+      'end-date': endDate
     });
 
     var lastWeek = query({
