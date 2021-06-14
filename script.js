@@ -284,4 +284,4 @@ function escapeHtml(str) {
 
 
   
-  });
+);
