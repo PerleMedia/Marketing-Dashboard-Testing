@@ -16,47 +16,18 @@ gapi.analytics.ready(function() {
     clientid: developerClientID
   });
 
-  renderWeekOverWeekChart();
-  renderYearOverYearChart();
-  renderTopBrowsersChart();
-  renderTopCountriesChart();
-  renderTopDevicesChart();
-
-
-    var dateRange1 = {
-      'start-date': '18daysAgo',
-      'end-date': 'yesterday'
-    };
-
-    var dateRangeSelector1 = new gapi.analytics.ext.DateRangeSelector({
-      container: 'date-range-selector-container'
-    })
-    .set(dateRange1)
-    .execute();
-
-    dateRangeSelector1.on('change', function(data) {
-      dataChart1.set({query: data}).execute();
-  
-      // Update the "from" dates text.
-      var datefield = document.getElementById('from-dates');
-      datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
-
-
-      renderWeekOverWeekChart(data);
-      renderYearOverYearChart(data);
-      renderTopBrowsersChart(data);
-      renderTopCountriesChart(data);
-      renderTopDevicesChart(data);
-    });
-
-
+    renderWeekOverWeekChart();
+    renderYearOverYearChart();
+    renderTopBrowsersChart();
+    renderTopCountriesChart();
+    renderTopDevicesChart();
 
   /**
    * Draw the a chart.js line chart with data from the specified view that
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart(data) {
+  function renderWeekOverWeekChart() {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
@@ -73,10 +44,8 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': moment(now).subtract(1, 'day').day(0).subtract(1, 'week')
-          .format('YYYY-MM-DD'),
-      'end-date': moment(now).subtract(1, 'day').day(6).subtract(1, 'week')
-          .format('YYYY-MM-DD')
+      'start-date': moment(now).subtract(1, 'day').day(0).format('YYYY-MM-DD'),
+      'end-date': moment(now).format('YYYY-MM-DD')
     });
 
     Promise.all([thisWeek, lastWeek]).then(function(results) {
