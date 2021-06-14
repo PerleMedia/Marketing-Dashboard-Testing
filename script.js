@@ -24,7 +24,7 @@ gapi.analytics.ready(function() {
 
     var dateRange1 = {
       'start-date': '8daysAgo',
-      'end-date': '1daysAgo'
+      'end-date': 'yesterday'
     };
 
     var dateRangeSelector1 = new gapi.analytics.ext.DateRangeSelector({
