@@ -133,7 +133,7 @@ gapi.analytics.ready(function() {
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': startDate,
-      'end-date': endDate'
+      'end-date': endDate
     });
 
     Promise.all([thisWeek, lastWeek]).then(function(results) {
