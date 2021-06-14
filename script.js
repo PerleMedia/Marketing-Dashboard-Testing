@@ -166,7 +166,9 @@ gapi.analytics.ready(function() {
       'dimensions': 'ga:browser',
       'metrics': 'ga:pageviews',
       'sort': '-ga:pageviews',
-      'max-results': 5
+      'max-results': 5,
+      'start-date': '3daysAgo',
+      'end-date': '2daysAgo'
     })
     .then(function(response) {
 
