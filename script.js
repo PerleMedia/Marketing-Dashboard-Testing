@@ -126,8 +126,9 @@ gapi.analytics.ready(function() {
       'metrics': 'ga:sessions',
       'start-date': startDate,
       'end-date': endDate
-    })
-    .then(function(results) {
+    });
+    
+    Promise.all([thisWeek]).then(function(results) {
 
       var data1 = results[0].rows.map(function(row) { return +row[2]; });
       var labels = results[1].rows.map(function(row) { return +row[0]; });
