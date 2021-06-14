@@ -11,7 +11,7 @@ gapi.analytics.ready(function() {
     clientid: '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.googleusercontent.com'
   });
 
-  const analyticsViewID = 'ga:207443712';
+  
 
   /**
    * Create a new ActiveUsers instance to be rendered inside of an
@@ -52,7 +52,7 @@ gapi.analytics.ready(function() {
    * previous week.
    */
   function renderWeekOverWeekChart(analyticsViewID) {
-
+    const analyticsViewID = 'ga:207443712';
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
 
