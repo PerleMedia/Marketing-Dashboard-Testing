@@ -37,7 +37,7 @@ gapi.analytics.ready(function() {
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': '7daysAgo',
-      'end-date': '2daysAgo'
+      'end-date': '4daysAgo'
     });
 
     var lastWeek = query({
@@ -45,7 +45,7 @@ gapi.analytics.ready(function() {
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': '20daysAgo',
-      'end-date': '15daysAgo'
+      'end-date': '17daysAgo'
     });
 
     Promise.all([thisWeek, lastWeek]).then(function(results) {
@@ -53,6 +53,7 @@ gapi.analytics.ready(function() {
       var data1 = results[0].rows.map(function(row) { return +row[2]; });
       var data2 = results[1].rows.map(function(row) { return +row[2]; });
       var labels = results[1].rows.map(function(row) { return +row[0]; });
+
 
       labels = labels.map(function(label) {
         return moment(label, 'YYYYMMDD').format('ddd');
