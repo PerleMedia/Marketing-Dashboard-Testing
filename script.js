@@ -5,6 +5,7 @@ const developerClientID = '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.go
 // Begin Analytics Embed
 gapi.analytics.ready(function() {
 
+  
   /**
    * Authorize the user immediately if the user has already granted access.
    * If no access has been created, render an authorize button inside the
@@ -20,6 +21,29 @@ gapi.analytics.ready(function() {
     renderTopBrowsersChart();
     renderTopCountriesChart();
     renderTopDevicesChart();
+
+
+    var dateRange1 = {
+      'start-date': '14daysAgo',
+      'end-date': '8daysAgo'
+    };
+
+    var dateRangeSelector1 = new gapi.analytics.ext.DateRangeSelector({
+      container: 'date-range-selector-container'
+    })
+    .set(dateRange1)
+    .execute();
+
+    dateRangeSelector1.on('change', function(data) {
+      dataChart1.set({query: data}).execute();
+  
+      // Update the "from" dates text.
+      var datefield = document.getElementById('from-dates');
+      datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
+    });
+
+
+
   /**
    * Draw the a chart.js line chart with data from the specified view that
    * overlays session data for the current week over session data for the
