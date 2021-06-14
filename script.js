@@ -212,6 +212,32 @@ gapi.analytics.ready(function() {
     });
   }
 
+  function renderTopDevicesChart() {
+    query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:deviceCategory',
+      'metrics': 'ga:sessions',
+      'sort': '-ga:sessions',
+      'max-results': 5
+    })
+    .then(function(response) {
+
+      var data = [];
+      var colors = ['#4D5360','#949FB1','#D4CCC5','#E2EAE9','#F7464A'];
+
+      response.rows.forEach(function(row, i) {
+        data.push({
+          label: row[0],
+          value: +row[1],
+          color: colors[i]
+        });
+      });
+
+      new Chart(makeCanvas('chart-5-container')).Doughnut(data);
+      generateLegend('legend-5-container', data);
+    });
+  }
+
 
   /**
    * Extend the Embed APIs `gapi.analytics.report.Data` component to
