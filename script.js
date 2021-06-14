@@ -10,7 +10,7 @@ gapi.analytics.ready(function() {
     document.getElementById('main').style.display = "none";
   }*/
 
-  document.querySelector('.gapi-analytics-auth-styles-signinbutton-buttonText').innerHTML = 'Access Originate Marketing Dashboard'
+  
   /**
    * Authorize the user immediately if the user has already granted access.
    * If no access has been created, render an authorize button inside the
