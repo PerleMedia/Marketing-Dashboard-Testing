@@ -19,6 +19,7 @@ gapi.analytics.ready(function() {
     renderYearOverYearChart();
     renderTopBrowsersChart();
     renderTopCountriesChart();
+    renderTopDevicesChart();
   /**
    * Draw the a chart.js line chart with data from the specified view that
    * overlays session data for the current week over session data for the
