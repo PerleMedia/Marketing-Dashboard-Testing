@@ -67,8 +67,8 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': '14daysAgo',
-      'end-date': '8daysAgo'
+      'start-date': startDate,
+      'end-date': endDate'
     });
 
     Promise.all([thisWeek, lastWeek]).then(function(results) {
