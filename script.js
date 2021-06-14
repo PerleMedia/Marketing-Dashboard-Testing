@@ -7,7 +7,7 @@
 }(window,document,'script'));
 
 // Begin Analytics Embed
-gapi.analytics.ready(function() {
+gapi.analytics.ready(function() { 
 
   /**
    * Authorize the user immediately if the user has already granted access.
