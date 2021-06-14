@@ -61,7 +61,7 @@ gapi.analytics.ready(function() {
    * Update the activeUsers component, the Chartjs charts, and the dashboard
    * title whenever the user changes the view.
    */
-  viewSelector.on('viewChange', function(data) {
+
     var title = document.getElementById('view-name');
     title.textContent = data.property.name + ' (' + data.view.name + ')';
 
@@ -73,7 +73,7 @@ gapi.analytics.ready(function() {
     renderYearOverYearChart(data.ids);
     renderTopBrowsersChart(data.ids);
     renderTopCountriesChart(data.ids);
-  });
+
 
 
   /**
