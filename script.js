@@ -11,6 +11,7 @@ gapi.analytics.ready(function() {
     clientid: '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.googleusercontent.com'
   });
 
+  const analyticsViewID = 'ga:207443712';
 
   /**
    * Create a new ActiveUsers instance to be rendered inside of an
@@ -44,47 +45,19 @@ gapi.analytics.ready(function() {
   });
 
 
-  /**
-   * Create a new ViewSelector2 instance to be rendered inside of an
-   * element with the id "view-selector-container".
-   */
-  var viewSelector = new gapi.analytics.ext.ViewSelector2({
-    container: 'view-selector-container',
-  })
-  .execute();
-
-
-  /**
-   * Update the activeUsers component, the Chartjs charts, and the dashboard
-   * title whenever the user changes the view.
-   */
-  viewSelector.on('viewChange', function(data) {
-    var title = document.getElementById('view-name');
-    title.textContent = data.property.name + ' (' + data.view.name + ')';
-
-    // Start tracking active users for this view.
-    activeUsers.set(data).execute();
-
-    // Render all the of charts for this view.
-    renderWeekOverWeekChart(data.ids);
-    renderYearOverYearChart(data.ids);
-    renderTopBrowsersChart(data.ids);
-    renderTopCountriesChart(data.ids);
-  });
-
 
   /**
    * Draw the a chart.js line chart with data from the specified view that
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart(ids) {
+  function renderWeekOverWeekChart() {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
 
     var thisWeek = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': moment(now).subtract(1, 'day').day(0).format('YYYY-MM-DD'),
@@ -92,7 +65,7 @@ gapi.analytics.ready(function() {
     });
 
     var lastWeek = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': moment(now).subtract(1, 'day').day(0).subtract(1, 'week')
@@ -144,13 +117,13 @@ gapi.analytics.ready(function() {
    * overlays session data for the current year over session data for the
    * previous year, grouped by month.
    */
-  function renderYearOverYearChart(ids) {
+  function renderYearOverYearChart() {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
 
     var thisYear = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:month,ga:nthMonth',
       'metrics': 'ga:users',
       'start-date': moment(now).date(1).month(0).format('YYYY-MM-DD'),
@@ -158,7 +131,7 @@ gapi.analytics.ready(function() {
     });
 
     var lastYear = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:month,ga:nthMonth',
       'metrics': 'ga:users',
       'start-date': moment(now).subtract(1, 'year').date(1).month(0)
@@ -211,10 +184,10 @@ gapi.analytics.ready(function() {
    * Draw the a chart.js doughnut chart with data from the specified view that
    * show the top 5 browsers over the past seven days.
    */
-  function renderTopBrowsersChart(ids) {
+  function renderTopBrowsersChart() {
 
     query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:browser',
       'metrics': 'ga:pageviews',
       'sort': '-ga:pageviews',
@@ -240,9 +213,9 @@ gapi.analytics.ready(function() {
    * compares sessions from mobile, desktop, and tablet over the past seven
    * days.
    */
-  function renderTopCountriesChart(ids) {
+  function renderTopCountriesChart() {
     query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:country',
       'metrics': 'ga:sessions',
       'sort': '-ga:sessions',
