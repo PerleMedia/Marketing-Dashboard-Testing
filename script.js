@@ -1,6 +1,5 @@
 const analyticsViewID = 'ga:207443712';
 const developerClientID = '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.googleusercontent.com';
-const testDate = '2021-05-30'
 
 // Begin Analytics Embed
 gapi.analytics.ready(function() {
@@ -23,18 +22,18 @@ gapi.analytics.ready(function() {
   renderTopCountriesChart();
   renderTopDevicesChart();
 
-    var dateRange1 = {
+    var customDateRange = {
       'start-date': '7daysAgo',
       'end-date': 'today'
     };
 
-    var dateRangeSelector1 = new gapi.analytics.ext.DateRangeSelector({
-      container: 'date-range-selector-1-container'
+    var dateRangeSelector = new gapi.analytics.ext.DateRangeSelector({
+      container: 'date-range-selector-container'
     })
-    .set(dateRange1)
+    .set(customDateRange)
     .execute();
 
-    dateRangeSelector1.on('change', function(data) {
+    dateRangeSelector.on('change', function(data) {
   
       // Update the "from" dates text.
       var datefield = document.getElementById('from-dates');
