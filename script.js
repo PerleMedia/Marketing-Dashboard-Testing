@@ -20,6 +20,7 @@ gapi.analytics.ready(function() {
   renderYearOverYearChart();
   renderTopBrowsersChart();
   renderTopCountriesChart();
+  renderTopDevicesChart();
 
 
     var dateRange1 = {
@@ -40,10 +41,11 @@ gapi.analytics.ready(function() {
       var datefield = document.getElementById('from-dates');
       datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
 
-      renderWeekOverWeekChart(data['start-date'], data['end-date']);
+      renderWeekOverWeekChart(data);
       renderYearOverYearChart(data);
       renderTopBrowsersChart(data);
       renderTopCountriesChart(data);
+      renderTopDevicesChart(data);
     });
 
 
@@ -53,7 +55,7 @@ gapi.analytics.ready(function() {
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart(startDate, endDate) {
+  function renderWeekOverWeekChart(data) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
@@ -62,8 +64,8 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': startDate,
-      'end-date': endDate
+      'start-date': data['start-date'],
+      'end-date': data['end-date']
     });
 
     var lastWeek = query({
