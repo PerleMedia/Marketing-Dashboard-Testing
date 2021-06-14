@@ -36,18 +36,16 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': moment(now).subtract(7, 'day').day(0).format('YYYY-MM-DD'),
-      'end-date': moment(now).format('YYYY-MM-DD')
+      'start-date': '7daysAgo',
+      'end-date': 'yesterday'
     });
 
     var lastWeek = query({
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': moment(now).subtract(1, 'day').day(0).subtract(1, 'week')
-          .format('YYYY-MM-DD'),
-      'end-date': moment(now).subtract(1, 'day').day(6).subtract(1, 'week')
-          .format('YYYY-MM-DD')
+      'start-date': '14daysAgo',
+      'end-date': '8daysAgo'
     });
 
     Promise.all([thisWeek, lastWeek]).then(function(results) {
