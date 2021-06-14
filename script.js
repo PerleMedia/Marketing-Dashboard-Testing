@@ -16,6 +16,11 @@ gapi.analytics.ready(function() {
     clientid: developerClientID
   });
 
+  renderWeekOverWeekChart();
+  renderYearOverYearChart();
+  renderTopBrowsersChart();
+  renderTopCountriesChart();
+
 
     var dateRange1 = {
       'start-date': '8daysAgo',
