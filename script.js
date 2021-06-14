@@ -51,7 +51,7 @@ gapi.analytics.ready(function() {
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart() {
+  function renderWeekOverWeekChart(ids) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
@@ -117,7 +117,7 @@ gapi.analytics.ready(function() {
    * overlays session data for the current year over session data for the
    * previous year, grouped by month.
    */
-  function renderYearOverYearChart() {
+  function renderYearOverYearChart(ids) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
@@ -184,7 +184,7 @@ gapi.analytics.ready(function() {
    * Draw the a chart.js doughnut chart with data from the specified view that
    * show the top 5 browsers over the past seven days.
    */
-  function renderTopBrowsersChart() {
+  function renderTopBrowsersChart(ids) {
 
     query({
       'ids': analyticsViewID,
@@ -213,7 +213,7 @@ gapi.analytics.ready(function() {
    * compares sessions from mobile, desktop, and tablet over the past seven
    * days.
    */
-  function renderTopCountriesChart() {
+  function renderTopCountriesChart(ids) {
     query({
       'ids': analyticsViewID,
       'dimensions': 'ga:country',
