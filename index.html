@@ -64,10 +64,10 @@
 </script>
 
 <script defer>
-    if (gapi.analytics.auth.isAuthorized() === true ){
-    document.getElementById('main').style.display = "block";
-  } else {
+    if (gapi.analytics.auth.isAuthorized() == false ){
     document.getElementById('main').style.display = "none";
+  } else {
+    document.getElementById('main').style.display = "block";
   }
 </script>
 
