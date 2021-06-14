@@ -41,10 +41,9 @@ gapi.analytics.ready(function() {
       datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
 
       renderSessionsOverTime(data['start-date'], data['end-date']);
-      renderYearOverYearChart();
-      renderTopBrowsersChart();
-      renderTopCountriesChart();
-      renderTopDevicesChart();
+      renderTopBrowsersChart(data['start-date'], data['end-date']);
+      renderTopCountriesChart(data['start-date'], data['end-date']);
+      renderTopDevicesChart(data['start-date'], data['end-date']);
     });
 
 
@@ -111,49 +110,6 @@ gapi.analytics.ready(function() {
 
       new Chart(makeCanvas('chart-1-container')).Line(data);
       generateLegend('legend-1-container', data.datasets);
-    });
-  }
-
-
-  function renderSessionsOverTime(startDate, endDate) {
-
-    // Adjust `now` to experiment with different days, for testing only...
-    var now = moment(); // .subtract(3, 'day');
-
-    var thisWeek = query({
-      'ids': analyticsViewID,
-      'dimensions': 'ga:date,ga:nthDay',
-      'metrics': 'ga:sessions',
-      'start-date': startDate,
-      'end-date': endDate
-    });
-    
-    Promise.all([thisWeek]).then(function(results) {
-
-      var data1 = results[0].rows.map(function(row) { return +row[2]; });
-      var labels = results[0].rows.map(function(row) { return +row[0]; });
-
-
-      labels = labels.map(function(label) {
-        return moment(label, 'YYYYMMDD').format('ddd');
-      });
-
-      var data = {
-        labels : labels,
-        datasets : [
-          {
-            label: 'This Week',
-            fillColor : 'rgba(151,187,205,0.5)',
-            strokeColor : 'rgba(151,187,205,1)',
-            pointColor : 'rgba(151,187,205,1)',
-            pointStrokeColor : '#fff',
-            data : data1
-          }
-        ]
-      };
-
-      new Chart(makeCanvas('chart-12-container')).Line(data);
-      generateLegend('legend-12-container', data.datasets);
     });
   }
 
@@ -226,11 +182,55 @@ gapi.analytics.ready(function() {
   }
 
 
+  function renderSessionsOverTime(startDate, endDate) {
+
+    // Adjust `now` to experiment with different days, for testing only...
+    var now = moment(); // .subtract(3, 'day');
+
+    var thisWeek = query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:date,ga:nthDay',
+      'metrics': 'ga:sessions',
+      'start-date': startDate,
+      'end-date': endDate
+    });
+    
+    Promise.all([thisWeek]).then(function(results) {
+
+      var data1 = results[0].rows.map(function(row) { return +row[2]; });
+      var labels = results[0].rows.map(function(row) { return +row[0]; });
+
+
+      labels = labels.map(function(label) {
+        return moment(label, 'YYYYMMDD').format('ddd');
+      });
+
+      var data = {
+        labels : labels,
+        datasets : [
+          {
+            label: 'This Week',
+            fillColor : 'rgba(151,187,205,0.5)',
+            strokeColor : 'rgba(151,187,205,1)',
+            pointColor : 'rgba(151,187,205,1)',
+            pointStrokeColor : '#fff',
+            data : data1
+          }
+        ]
+      };
+
+      new Chart(makeCanvas('chart-12-container')).Line(data);
+      generateLegend('legend-12-container', data.datasets);
+    });
+  }
+
+
+
   /**
    * Draw the a chart.js doughnut chart with data from the specified view that
    * show the top 5 browsers over the past seven days.
    */
-  function renderTopBrowsersChart() {
+  function renderTopBrowsersChart(startDate, endDate) {
 
     query({
       'ids': analyticsViewID,
@@ -238,8 +238,8 @@ gapi.analytics.ready(function() {
       'metrics': 'ga:pageviews',
       'sort': '-ga:pageviews',
       'max-results': 5,
-      'start-date': '100daysAgo',
-      'end-date': '99daysAgo'
+      'start-date': startDate,
+      'end-date': endDate
     })
     .then(function(response) {
 
@@ -261,13 +261,15 @@ gapi.analytics.ready(function() {
    * compares sessions from mobile, desktop, and tablet over the past seven
    * days.
    */
-  function renderTopCountriesChart() {
+  function renderTopCountriesChart(startDate, endDate) {
     query({
       'ids': analyticsViewID,
       'dimensions': 'ga:country',
       'metrics': 'ga:sessions',
       'sort': '-ga:sessions',
-      'max-results': 5
+      'max-results': 5,
+      'start-date': startDate,
+      'end-date': endDate
     })
     .then(function(response) {
 
@@ -287,13 +289,15 @@ gapi.analytics.ready(function() {
     });
   }
 
-  function renderTopDevicesChart() {
+  function renderTopDevicesChart(startDate, endDate) {
     query({
       'ids': analyticsViewID,
       'dimensions': 'ga:deviceCategory',
       'metrics': 'ga:sessions',
       'sort': '-ga:sessions',
-      'max-results': 5
+      'max-results': 5,
+      'start-date': startDate,
+      'end-date': endDate
     })
     .then(function(response) {
 
