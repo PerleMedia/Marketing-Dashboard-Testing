@@ -169,8 +169,8 @@ gapi.analytics.ready(function() {
         ]
       };
 
-      new Chart(makeCanvas('chart-1-container')).Line(data);
-      generateLegend('legend-1-container', data.datasets);
+      new Chart(makeCanvas('chart-12-container')).Line(data);
+      generateLegend('legend-12-container', data.datasets);
     });
   }
 
