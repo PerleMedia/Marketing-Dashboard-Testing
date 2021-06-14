@@ -14,38 +14,6 @@ gapi.analytics.ready(function() {
 
 
   /**
-   * Create a new ActiveUsers instance to be rendered inside of an
-   * element with the id "active-users-container" and poll for changes every
-   * five seconds.
-   */
-  var activeUsers = new gapi.analytics.ext.ActiveUsers({
-    container: 'active-users-container',
-    pollingInterval: 5
-  });
-
-
-  /**
-   * Add CSS animation to visually show the when users come and go.
-   */
-  activeUsers.once('success', function() {
-    var element = this.container.firstChild;
-    var timeout;
-
-    this.on('change', function(data) {
-      var element = this.container.firstChild;
-      var animationClass = data.delta > 0 ? 'is-increasing' : 'is-decreasing';
-      element.className += (' ' + animationClass);
-
-      clearTimeout(timeout);
-      timeout = setTimeout(function() {
-        element.className =
-            element.className.replace(/ is-(increasing|decreasing)/g, '');
-      }, 3000);
-    });
-  });
-
-
-  /**
    * Create a new ViewSelector2 instance to be rendered inside of an
    * element with the id "view-selector-container".
    */
@@ -62,9 +30,6 @@ gapi.analytics.ready(function() {
   viewSelector.on('viewChange', function(data) {
     var title = document.getElementById('view-name');
     title.textContent = data.property.name + ' (' + data.view.name + ')';
-
-    // Start tracking active users for this view.
-    activeUsers.set(data).execute();
 
     // Render all the of charts for this view.
     renderWeekOverWeekChart(data.ids);
