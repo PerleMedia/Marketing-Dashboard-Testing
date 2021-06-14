@@ -16,11 +16,35 @@ gapi.analytics.ready(function() {
     clientid: developerClientID
   });
 
-    renderWeekOverWeekChart();
-    renderYearOverYearChart();
-    renderTopBrowsersChart();
-    renderTopCountriesChart();
-    renderTopDevicesChart();
+    
+
+    var dateRange1 = {
+      'start-date': '7daysAgo',
+      'end-date': 'today'
+    };
+
+    var dateRangeSelector1 = new gapi.analytics.ext.DateRangeSelector({
+      container: 'date-range-selector-1-container'
+    })
+    .set(dateRange1)
+    .execute();
+
+    dateRangeSelector1.on('change', function(data) {
+      dataChart1.set({query: data}).execute();
+  
+      // Update the "from" dates text.
+      var datefield = document.getElementById('from-dates');
+      datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
+
+      renderWeekOverWeekChart(data['start-date'], data['end-date']);
+      renderYearOverYearChart();
+      renderTopBrowsersChart();
+      renderTopCountriesChart();
+      renderTopDevicesChart();
+    });
+
+
+
 
   /**
    * Draw the a chart.js line chart with data from the specified view that
@@ -36,8 +60,8 @@ gapi.analytics.ready(function() {
       'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
-      'start-date': '7daysAgo',
-      'end-date': 'today'
+      'start-date': data["start-date"].format('YYYY-MM-DD'),
+      'end-date': data["end-date"].format('YYYY-MM-DD')
     });
 
     var lastWeek = query({
