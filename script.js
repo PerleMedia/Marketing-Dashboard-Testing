@@ -51,7 +51,7 @@ gapi.analytics.ready(function() {
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart(ids) {
+  function renderWeekOverWeekChart(analyticsViewID) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
