@@ -17,7 +17,7 @@ gapi.analytics.ready(function() {
   });
 
   renderWeekOverWeekChart();
-  renderWeekOverWeekChart2();
+  renderSessionsOverTime();
   renderYearOverYearChart();
   renderTopBrowsersChart();
   renderTopCountriesChart();
@@ -40,7 +40,7 @@ gapi.analytics.ready(function() {
       var datefield = document.getElementById('from-dates');
       datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
 
-      renderWeekOverWeekChart2(data['start-date'], data['end-date']);
+      renderSessionsOverTime(data['start-date'], data['end-date']);
       renderYearOverYearChart();
       renderTopBrowsersChart();
       renderTopCountriesChart();
@@ -115,7 +115,7 @@ gapi.analytics.ready(function() {
   }
 
 
-  function renderWeekOverWeekChart2(startDate, endDate) {
+  function renderSessionsOverTime(startDate, endDate) {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
@@ -126,20 +126,10 @@ gapi.analytics.ready(function() {
       'metrics': 'ga:sessions',
       'start-date': startDate,
       'end-date': endDate
-    });
-
-    var lastWeek = query({
-      'ids': analyticsViewID,
-      'dimensions': 'ga:date,ga:nthDay',
-      'metrics': 'ga:sessions',
-      'start-date': startDate,
-      'end-date': endDate
-    });
-
-    Promise.all([thisWeek, lastWeek]).then(function(results) {
+    })
+    .then(function(results) {
 
       var data1 = results[0].rows.map(function(row) { return +row[2]; });
-      var data2 = results[1].rows.map(function(row) { return +row[2]; });
       var labels = results[1].rows.map(function(row) { return +row[0]; });
 
 
@@ -150,14 +140,6 @@ gapi.analytics.ready(function() {
       var data = {
         labels : labels,
         datasets : [
-          {
-            label: 'Last Week',
-            fillColor : 'rgba(220,220,220,0.5)',
-            strokeColor : 'rgba(220,220,220,1)',
-            pointColor : 'rgba(220,220,220,1)',
-            pointStrokeColor : '#fff',
-            data : data2
-          },
           {
             label: 'This Week',
             fillColor : 'rgba(151,187,205,0.5)',
