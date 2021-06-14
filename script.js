@@ -3,14 +3,14 @@ const developerClientID = '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.go
 
 // Begin Analytics Embed
 gapi.analytics.ready(function() {
+
+  const handle = setTimeout(() => {
   if (gapi.analytics.auth.isAuthorized() == false ){
-    const handle = setTimeout(() => {
       document.getElementById('main').style.display = "none";
-      clearTimeout(handle);
-    }, 4000);
   } else {
     document.getElementById('main').style.display = "block";
   }
+}, 4000);
   /**
    * Authorize the user immediately if the user has already granted access.
    * If no access has been created, render an authorize button inside the
