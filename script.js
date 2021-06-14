@@ -1,3 +1,6 @@
+const analyticsViewID = 'ga:207443712';
+
+
 // Begin Analytics Embed
 gapi.analytics.ready(function() {
 
@@ -78,13 +81,13 @@ gapi.analytics.ready(function() {
    * overlays session data for the current week over session data for the
    * previous week.
    */
-  function renderWeekOverWeekChart(ids) {
+  function renderWeekOverWeekChart() {
 
     // Adjust `now` to experiment with different days, for testing only...
     var now = moment(); // .subtract(3, 'day');
 
     var thisWeek = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': moment(now).subtract(1, 'day').day(0).format('YYYY-MM-DD'),
@@ -92,7 +95,7 @@ gapi.analytics.ready(function() {
     });
 
     var lastWeek = query({
-      'ids': ids,
+      'ids': analyticsViewID,
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': moment(now).subtract(1, 'day').day(0).subtract(1, 'week')
