@@ -45,7 +45,7 @@ gapi.analytics.ready(function() {
       'dimensions': 'ga:date,ga:nthDay',
       'metrics': 'ga:sessions',
       'start-date': '20daysAgo',
-      'end-date': '15daysAgo')
+      'end-date': '15daysAgo'
     });
 
     Promise.all([thisWeek, lastWeek]).then(function(results) {
