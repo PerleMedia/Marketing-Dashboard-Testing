@@ -53,6 +53,11 @@ gapi.analytics.ready(function() {
   })
   .execute();
 
+  var dateSelector = new gapi.analytics.ext.DateRangeSelector({
+    container: 'date-selector-container',
+  })
+  .execute();
+
 
   /**
    * Update the activeUsers component, the Chartjs charts, and the dashboard
