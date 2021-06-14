@@ -30,7 +30,6 @@ gapi.analytics.ready(function() {
     .execute();
 
     dateRangeSelector1.on('change', function(data) {
-      dataChart1.set({query: data}).execute();
   
       // Update the "from" dates text.
       var datefield = document.getElementById('from-dates');
