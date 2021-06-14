@@ -10,8 +10,8 @@ gapi.analytics.ready(function() {
     container: 'embed-api-auth-container',
     clientid: '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.googleusercontent.com'
   });
-
-
+  
+  
   /**
    * Store a set of common DataChart config options since they're shared by
    * both of the charts we're about to make.
@@ -28,8 +28,8 @@ gapi.analytics.ready(function() {
       }
     }
   };
-
-
+  
+  
   /**
    * Query params representing the first chart's date range.
    */
@@ -37,8 +37,8 @@ gapi.analytics.ready(function() {
     'start-date': '14daysAgo',
     'end-date': '8daysAgo'
   };
-
-
+  
+  
   /**
    * Query params representing the second chart's date range.
    */
@@ -46,8 +46,8 @@ gapi.analytics.ready(function() {
     'start-date': '7daysAgo',
     'end-date': 'yesterday'
   };
-
-
+  
+  
   /**
    * Create a new ViewSelector2 instance to be rendered inside of an
    * element with the id "view-selector-container".
@@ -55,8 +55,8 @@ gapi.analytics.ready(function() {
   var viewSelector = new gapi.analytics.ext.ViewSelector2({
     container: 'view-selector-container',
   }).execute();
-
-
+  
+  
   /**
    * Create a new DateRangeSelector instance to be rendered inside of an
    * element with the id "date-range-selector-1-container", set its date range
@@ -67,8 +67,8 @@ gapi.analytics.ready(function() {
   })
   .set(dateRange1)
   .execute();
-
-
+  
+  
   /**
    * Create a new DateRangeSelector instance to be rendered inside of an
    * element with the id "date-range-selector-2-container", set its date range
@@ -79,8 +79,8 @@ gapi.analytics.ready(function() {
   })
   .set(dateRange2)
   .execute();
-
-
+  
+  
   /**
    * Create a new DataChart instance with the given query parameters
    * and Google chart options. It will be rendered inside an element
@@ -89,8 +89,8 @@ gapi.analytics.ready(function() {
   var dataChart1 = new gapi.analytics.googleCharts.DataChart(commonConfig)
       .set({query: dateRange1})
       .set({chart: {container: 'data-chart-1-container'}});
-
-
+  
+  
   /**
    * Create a new DataChart instance with the given query parameters
    * and Google chart options. It will be rendered inside an element
@@ -99,8 +99,8 @@ gapi.analytics.ready(function() {
   var dataChart2 = new gapi.analytics.googleCharts.DataChart(commonConfig)
       .set({query: dateRange2})
       .set({chart: {container: 'data-chart-2-container'}});
-
-
+  
+  
   /**
    * Register a handler to run whenever the user changes the view.
    * The handler will update both dataCharts as well as updating the title
@@ -109,12 +109,12 @@ gapi.analytics.ready(function() {
   viewSelector.on('viewChange', function(data) {
     dataChart1.set({query: {ids: data.ids}}).execute();
     dataChart2.set({query: {ids: data.ids}}).execute();
-
+  
     var title = document.getElementById('view-name');
     title.textContent = data.property.name + ' (' + data.view.name + ')';
   });
-
-
+  
+  
   /**
    * Register a handler to run whenever the user changes the date range from
    * the first datepicker. The handler will update the first dataChart
@@ -122,13 +122,13 @@ gapi.analytics.ready(function() {
    */
   dateRangeSelector1.on('change', function(data) {
     dataChart1.set({query: data}).execute();
-
+  
     // Update the "from" dates text.
     var datefield = document.getElementById('from-dates');
     datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
   });
-
-
+  
+  
   /**
    * Register a handler to run whenever the user changes the date range from
    * the second datepicker. The handler will update the second dataChart
@@ -136,10 +136,10 @@ gapi.analytics.ready(function() {
    */
   dateRangeSelector2.on('change', function(data) {
     dataChart2.set({query: data}).execute();
-
+  
     // Update the "to" dates text.
     var datefield = document.getElementById('to-dates');
     datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
   });
-
-});
+  
+  });
