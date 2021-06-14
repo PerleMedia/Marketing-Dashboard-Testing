@@ -48,6 +48,14 @@ gapi.analytics.ready(function() {
   };
   
   
+  /**
+   * Create a new ViewSelector2 instance to be rendered inside of an
+   * element with the id "view-selector-container".
+   */
+  var viewSelector = new gapi.analytics.ext.ViewSelector2({
+    container: 'view-selector-container',
+  }).execute();
+  
   
   /**
    * Create a new DateRangeSelector instance to be rendered inside of an
