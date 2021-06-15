@@ -17,6 +17,7 @@ gapi.analytics.ready(function() {
   renderWeeklyConversions();
   renderTopCitiesWeekChart();
   renderTopDevicesWeekChart();
+  renderTrafficSourcesWeekChart()
   renderSessionsOverTime();
   renderTopBrowsersChart();
   renderTopCountriesChart();
@@ -225,6 +226,38 @@ gapi.analytics.ready(function() {
       // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-4-container')).Doughnut(data);
       generateLegend('legend-4-container', data);
+    });
+  }
+
+  /** Traffic Sources this week **/
+  function renderTrafficSourcesWeekChart() {
+    query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:acquisitionTrafficChannel',
+      'metrics': 'ga:sessions',
+      'sort': '-ga:sessions',
+      'max-results': 5,
+      'start-date': '7daysAgo',
+      'end-date': 'today'
+    })
+    .then(function(response) {
+
+      var data = [];
+
+      // Set chart styles
+      var colors = [color1, color2, color3, color4, color5];
+
+      response.rows.forEach(function(row, i) {
+        data.push({
+          label: row[0],
+          value: +row[1],
+          color: colors[i]
+        });
+      });
+
+      // Insert chart and legend into specified containers
+      new Chart(makeCanvas('chart-5-container')).Doughnut(data);
+      generateLegend('legend-5-container', data);
     });
   }
 
