@@ -105,8 +105,15 @@ header{
     width:100vw;
     position:fixed;
     top: 0;
+    padding:5px 55px;
+    box-sizing: border-box;
     background-color:black;
+    display:flex;
     z-index:99;
+}
+
+#originate-logo{
+    height:100%;
 }
 
 nav{
