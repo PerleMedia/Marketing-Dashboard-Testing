@@ -15,6 +15,8 @@ gapi.analytics.ready(function() {
   // Charts to render on load
   renderWeeklySessions();
   renderWeeklyConversions();
+  renderTopCitiesWeekChart();
+  renderTopDevicesWeekChart();
   renderSessionsOverTime();
   renderTopBrowsersChart();
   renderTopCountriesChart();
@@ -104,7 +106,7 @@ gapi.analytics.ready(function() {
     });
   }
 
-  /** Compare this year's and last year's sessions **/
+  /** Compare this week's and last week's conversions **/
   function renderWeeklyConversions() {
 
     var thisWeek = query({
@@ -158,6 +160,70 @@ gapi.analytics.ready(function() {
       // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-2-container')).Line(data);
       generateLegend('legend-2-container', data.datasets);
+    });
+  }
+
+  /** Top cities this week **/
+  function renderTopCitiesWeekChart() {
+    query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:country',
+      'metrics': 'ga:sessions',
+      'sort': '-ga:sessions',
+      'max-results': 5,
+      'start-date': '7daysAgo',
+      'end-date': 'today'
+    })
+    .then(function(response) {
+
+      var data = [];
+
+      // Set chart styles
+      var colors = [color1, color2, color3, color4, color5];
+
+      response.rows.forEach(function(row, i) {
+        data.push({
+          label: row[0],
+          value: +row[1],
+          color: colors[i]
+        });
+      });
+
+      // Insert chart and legend into specified containers
+      new Chart(makeCanvas('chart-3-container')).Doughnut(data);
+      generateLegend('legend-3-container', data);
+    });
+  }
+
+  /** Top devices this week **/
+  function renderTopDevicesWeekChart() {
+    query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:deviceCategory',
+      'metrics': 'ga:sessions',
+      'sort': '-ga:sessions',
+      'max-results': 5,
+      'start-date': '7daysAgo',
+      'end-date': 'today'
+    })
+    .then(function(response) {
+
+      var data = [];
+
+      // Set chart styles
+      var colors = [color1, color2, color3, color4, color5];
+
+      response.rows.forEach(function(row, i) {
+        data.push({
+          label: row[0],
+          value: +row[1],
+          color: colors[i]
+        });
+      });
+
+      // Insert chart and legend into specified containers
+      new Chart(makeCanvas('chart-4-container')).Doughnut(data);
+      generateLegend('legend-4-container', data);
     });
   }
 
@@ -226,8 +292,8 @@ gapi.analytics.ready(function() {
       });
 
       // Insert chart and legend into specified containers
-      new Chart(makeCanvas('chart-3-container')).Doughnut(data);
-      generateLegend('legend-3-container', data);
+      new Chart(makeCanvas('chart-31-container')).Doughnut(data);
+      generateLegend('legend-31-container', data);
     });
   }
 
@@ -258,8 +324,8 @@ gapi.analytics.ready(function() {
       });
 
       // Insert chart and legend into specified containers
-      new Chart(makeCanvas('chart-4-container')).Doughnut(data);
-      generateLegend('legend-4-container', data);
+      new Chart(makeCanvas('chart-41-container')).Doughnut(data);
+      generateLegend('legend-41-container', data);
     });
   }
 
@@ -290,8 +356,8 @@ gapi.analytics.ready(function() {
       });
 
       // Insert chart and legend into specified containers
-      new Chart(makeCanvas('chart-5-container')).Doughnut(data);
-      generateLegend('legend-5-container', data);
+      new Chart(makeCanvas('chart-51-container')).Doughnut(data);
+      generateLegend('legend-51-container', data);
     });
   }
 
