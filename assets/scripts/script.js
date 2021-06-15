@@ -172,7 +172,8 @@ gapi.analytics.ready(function() {
       'sort': '-ga:sessions',
       'max-results': 5,
       'start-date': '7daysAgo',
-      'end-date': 'today'
+      'end-date': 'today',
+      'filters': 'ga:city!=(not set)'
     })
     .then(function(response) {
 
