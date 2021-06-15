@@ -4,10 +4,12 @@ const developerClientID = '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.go
 // Begin Analytics Embed
 gapi.analytics.ready(function() {
 
-  setTimeout(checkAuth, 4000);
+  setTimeout(checkAuth, 3000);
     function checkAuth() {
     if (gapi.analytics.auth.isAuthorized() == true ){
       document.getElementById('main').style.display = "block";
+      document.getElementById('main').style.height = "auto";
+      document.getElementById('main').style.overflow = "visible";
     } else {
     document.getElementById('main').style.display = "none";
     }
