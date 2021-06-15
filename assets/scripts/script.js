@@ -15,7 +15,7 @@ gapi.analytics.ready(function() {
   // Charts to render on load
   renderWeeklySessions();
   renderWeeklyConversions();
-  renderYearOverYearChart();
+  renderSessionsOverTime();
   renderTopBrowsersChart();
   renderTopCountriesChart();
   renderTopDevicesChart();
