@@ -82,3 +82,15 @@
     justify-content:center;
     width:100%;
 }
+.flex-row.cols-1 > div{
+    width:100%;
+}
+.flex-row.cols-2 > div{
+    width:50%;
+}
+.flex-row.cols-3 > div{
+    width:33.33%;
+}
+.flex-row.cols-4 > div{
+    width:25%;
+}
