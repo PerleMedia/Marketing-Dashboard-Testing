@@ -392,3 +392,4 @@ function hexToRgbA(hex, alpha){
   throw new Error('Bad Hex');
 }
 
+document.getElementById('site-title').innerHTML = siteAddress;

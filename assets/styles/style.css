@@ -80,5 +80,5 @@
 .flex-row{
     display:flex;
     justify-content:center;
-    color:#dcdcdc
+    width:100%;
 }
