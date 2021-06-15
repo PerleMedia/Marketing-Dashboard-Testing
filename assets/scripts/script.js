@@ -20,7 +20,7 @@ gapi.analytics.ready(function() {
   renderTopCountriesChart();
   renderTopDevicesChart();
 
-  // Dates and date range selector  
+  // Set week to default date and add date range selector  
   var customDateRange = {
     'start-date': '7daysAgo',
     'end-date': 'today'
@@ -81,9 +81,9 @@ gapi.analytics.ready(function() {
         datasets : [
           {
             label: 'Last Week',
-            fillColor : 'rgba(220,220,220,0.5)',
-            strokeColor : 'rgba(220,220,220,1)',
-            pointColor : 'rgba(220,220,220,1)',
+            fillColor : hexToRgbA(colorGray, .5),
+            strokeColor : hexToRgbA(colorGray, 1),
+            pointColor : hexToRgbA(colorGray, 1),
             pointStrokeColor : '#fff',
             data : data2
           },
@@ -224,7 +224,7 @@ gapi.analytics.ready(function() {
       var data = [];
 
       // Set chart styles
-      var colors = ['#4D5360','#949FB1','#D4CCC5','#E2EAE9','#F7464A'];
+      var colors = [color1, color2, color3, color4, color5];
 
       response.rows.forEach(function(row, i) {
         data.push({ value: +row[1], color: colors[i], label: row[0] });
@@ -376,3 +376,19 @@ gapi.analytics.ready(function() {
   }
 
 });
+
+
+//Additional scripts
+function hexToRgbA(hex, alpha){
+  var c;
+  if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+      c= hex.substring(1).split('');
+      if(c.length== 3){
+          c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+      }
+      c= '0x'+c.join('');
+      return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+',' + alpha + ')';
+  }
+  throw new Error('Bad Hex');
+}
+

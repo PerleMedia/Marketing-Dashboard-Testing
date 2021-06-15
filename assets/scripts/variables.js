@@ -22,3 +22,11 @@ const siteName = 'TC Matthews';
 // Client Business Logo (1:1 Aspect Ratio, at least 250px wide)
 const siteLogo = './assets/img/logo.png';
 
+// Brand Colors
+const colorGray = '#DCDCDC'; // Default: #DCDCDC
+const color1 = '#4D5360'; // Default: #4D5360
+const color2 = '#949FB1'; // Default: #949FB1
+const color3 = '#D4CCC5'; // Default: #D4CCC5
+const color4 = '#E2EAE9'; // Default: #E2EAE9
+const color5 = '#F7464A'; // Default: #F7464A
+
