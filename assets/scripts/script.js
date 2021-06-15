@@ -13,8 +13,8 @@ gapi.analytics.ready(function() {
   });
 
   // Charts to render on load
-  renderWeekOverWeekChart();
-  renderSessionsOverTime();
+  renderWeeklySessions();
+  renderWeeklyConversions();
   renderYearOverYearChart();
   renderTopBrowsersChart();
   renderTopCountriesChart();
@@ -48,7 +48,7 @@ gapi.analytics.ready(function() {
 ****************************/
   
   /** Compare this week's and last week's sessions **/
-  function renderWeekOverWeekChart() {
+  function renderWeeklySessions() {
 
     var thisWeek = query({
       'ids': analyticsViewID,
@@ -89,9 +89,9 @@ gapi.analytics.ready(function() {
           },
           {
             label: 'This Week',
-            fillColor : 'rgba(151,187,205,0.5)',
-            strokeColor : 'rgba(151,187,205,1)',
-            pointColor : 'rgba(151,187,205,1)',
+            fillColor : hexToRgbA(colorBlue, .5),
+            strokeColor : hexToRgbA(colorBlue, 1),
+            pointColor : hexToRgbA(colorBlue, 1),
             pointStrokeColor : '#fff',
             data : data1
           }
@@ -105,64 +105,59 @@ gapi.analytics.ready(function() {
   }
 
   /** Compare this year's and last year's sessions **/
-  function renderYearOverYearChart() {
+  function renderWeeklyConversions() {
 
-    var now = moment(); 
-    var thisYear = query({
+    var thisWeek = query({
       'ids': analyticsViewID,
-      'dimensions': 'ga:month,ga:nthMonth',
-      'metrics': 'ga:users',
-      'start-date': moment(now).date(1).month(0).format('YYYY-MM-DD'),
-      'end-date': moment(now).format('YYYY-MM-DD')
+      'dimensions': 'ga:date,ga:nthDay',
+      'metrics': 'ga:goalCompletionsAll',
+      'start-date': '7daysAgo',
+      'end-date': 'today'
     });
 
-    var lastYear = query({
+    var lastWeek = query({
       'ids': analyticsViewID,
-      'dimensions': 'ga:month,ga:nthMonth',
-      'metrics': 'ga:users',
-      'start-date': moment(now).subtract(1, 'year').date(1).month(0)
-          .format('YYYY-MM-DD'),
-      'end-date': moment(now).date(1).month(0).subtract(1, 'day')
-          .format('YYYY-MM-DD')
+      'dimensions': 'ga:date,ga:nthDay',
+      'metrics': 'ga:goalCompletionsAll',
+      'start-date': '14daysAgo',
+      'end-date': '8daysAgo'
     });
 
-    Promise.all([thisYear, lastYear]).then(function(results) {
+    Promise.all([thisWeek, lastWeek]).then(function(results) {
+
       var data1 = results[0].rows.map(function(row) { return +row[2]; });
       var data2 = results[1].rows.map(function(row) { return +row[2]; });
-      var labels = ['Jan','Feb','Mar','Apr','May','Jun',
-                    'Jul','Aug','Sep','Oct','Nov','Dec'];
-
-      // Ensure the data arrays are at least as long as the labels array.
-      for (var i = 0, len = labels.length; i < len; i++) {
-        if (data1[i] === undefined) data1[i] = null;
-        if (data2[i] === undefined) data2[i] = null;
-      }
+      var labels = results[1].rows.map(function(row) { return +row[0]; });
+      labels = labels.map(function(label) {
+        return moment(label, 'YYYYMMDD').format('ddd');
+      });
 
       // Set chart styles
       var data = {
         labels : labels,
         datasets : [
           {
-            label: 'Last Year',
-            fillColor : 'rgba(220,220,220,0.5)',
-            strokeColor : 'rgba(220,220,220,1)',
+            label: 'Last Week',
+            fillColor : hexToRgbA(colorGray, .5),
+            strokeColor : hexToRgbA(colorGray, 1),
+            pointColor : hexToRgbA(colorGray, 1),
+            pointStrokeColor : '#fff',
             data : data2
           },
           {
-            label: 'This Year',
-            fillColor : 'rgba(151,187,205,0.5)',
-            strokeColor : 'rgba(151,187,205,1)',
+            label: 'This Week',
+            fillColor : hexToRgbA(colorBlue, .5),
+            strokeColor : hexToRgbA(colorBlue, 1),
+            pointColor : hexToRgbA(colorBlue, 1),
+            pointStrokeColor : '#fff',
             data : data1
           }
         ]
       };
 
       // Insert chart and legend into specified containers
-      new Chart(makeCanvas('chart-2-container')).Bar(data);
+      new Chart(makeCanvas('chart-2-container')).Line(data);
       generateLegend('legend-2-container', data.datasets);
-    })
-    .catch(function(err) {
-      console.error(err.stack);
     });
   }
 

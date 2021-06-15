@@ -23,7 +23,8 @@ const siteName = 'TC Matthews';
 const siteLogo = './assets/img/logo.png';
 
 // Brand Colors
-const colorGray = '#DCDCDC'; // Default: #DCDCDC
+const colorGray = '#DCDCDC'; // Default: #DCDCDC - default gray
+const colorBlue = '#97BBCD'; // Default: #97BBCD - default light blue
 const color1 = '#4D5360'; // Default: #4D5360
 const color2 = '#949FB1'; // Default: #949FB1
 const color3 = '#D4CCC5'; // Default: #D4CCC5
