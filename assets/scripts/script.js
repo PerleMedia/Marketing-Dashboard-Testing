@@ -167,7 +167,7 @@ gapi.analytics.ready(function() {
   function renderTopCitiesWeekChart() {
     query({
       'ids': analyticsViewID,
-      'dimensions': 'ga:country',
+      'dimensions': 'ga:city',
       'metrics': 'ga:sessions',
       'sort': '-ga:sessions',
       'max-results': 5,
