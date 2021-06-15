@@ -94,3 +94,30 @@
 .flex-row.cols-4 > div{
     width:25%;
 }
+
+body{
+    margin:0;
+    padding:0
+}
+
+header{
+    height:60px;
+    width:100vw;
+    position:fixed;
+    background-color:black;
+}
+
+nav{
+    width:55px;
+    height:100vh;
+    background-color: black;
+    position:absolute;
+    top:0;
+    left:0;
+}
+
+main{
+    width:calc(100% - 55px);
+    left:55px;
+    padding-top:60px;
+}

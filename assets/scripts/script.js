@@ -520,4 +520,7 @@ function hexToRgbA(hex, alpha){
   throw new Error('Bad Hex');
 }
 
+
+document.getElementById('header').style.backgroundColor = color2;
+document.getElementById('nav').style.backgroundColor = color1;
 document.getElementById('site-title').innerHTML = siteAddress;
