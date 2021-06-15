@@ -1,4 +1,4 @@
-const analyticsViewID = 'ga:207443712';
+const analyticsViewID = 'ga:104934590';
 const developerClientID = '862258600110-jkk79eng4i9rpldoi6l8pj8t576b6gju.apps.googleusercontent.com';
 
 // Begin Analytics Embed
