@@ -1,5 +1,6 @@
 // Begin Analytics Embed
 gapi.analytics.ready(function() {
+  
   /**
    * Authorize the user immediately if the user has already granted access.
    * If no access has been created, render an authorize button inside the
