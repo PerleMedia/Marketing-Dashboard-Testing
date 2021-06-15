@@ -234,8 +234,8 @@ gapi.analytics.ready(function() {
     query({
       'ids': analyticsViewID,
       'dimensions': 'ga:acquisitionTrafficChannel',
-      'metrics': 'ga:sessions',
-      'sort': '-ga:sessions',
+      'metrics': 'ga:users',
+      'sort': '-ga:users',
       'max-results': 5,
       'start-date': '7daysAgo',
       'end-date': 'today'
