@@ -240,7 +240,7 @@ gapi.analytics.ready(function() {
       'start-date': '7daysAgo',
       'end-date': 'today'
     })
-    .then(function(response) {
+    Promise.all().then(function(response) {
 
       var data = [];
 
