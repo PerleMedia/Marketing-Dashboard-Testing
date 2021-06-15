@@ -18,6 +18,7 @@ gapi.analytics.ready(function() {
   renderTopCitiesWeekChart();
   renderTopDevicesWeekChart();
   renderTopPagesWeekChart()
+  renderTrafficSourcesWeekChart()
   renderSessionsOverTime();
   renderTopBrowsersChart();
   renderTopCountriesChart();
@@ -234,8 +235,8 @@ gapi.analytics.ready(function() {
     query({
       'ids': analyticsViewID,
       'dimensions': 'ga:pageTitle',
-      'metrics': 'ga:users',
-      'sort': '-ga:users',
+      'metrics': 'ga:sessions',
+      'sort': '-ga:sessions',
       'max-results': 5,
       'start-date': '7daysAgo',
       'end-date': 'today'
@@ -258,6 +259,38 @@ gapi.analytics.ready(function() {
       // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-5-container')).Doughnut(data);
       generateLegend('legend-5-container', data);
+    });
+  }
+
+  /** Traffic sources this week **/
+  function renderTrafficSourcesWeekChart() {
+    query({
+      'ids': analyticsViewID,
+      'dimensions': 'ga:channelGrouping',
+      'metrics': 'ga:sessions',
+      'sort': '-ga:sessions',
+      'max-results': 5,
+      'start-date': '7daysAgo',
+      'end-date': 'today'
+    })
+    Promise.all().then(function(response) {
+
+      var data = [];
+
+      // Set chart styles
+      var colors = [color1, color2, color3, color4, color5];
+
+      response.rows.forEach(function(row, i) {
+        data.push({
+          label: row[0],
+          value: +row[1],
+          color: colors[i]
+        });
+      });
+
+      // Insert chart and legend into specified containers
+      new Chart(makeCanvas('chart-6-container')).Doughnut(data);
+      generateLegend('legend-6-container', data);
     });
   }
 
