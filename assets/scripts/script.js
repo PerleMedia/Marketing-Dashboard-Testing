@@ -1,16 +1,18 @@
-// Begin Analytics Embed
-gapi.analytics.ready(function() {
+/****************************
+** Initialize Page and API **
+****************************/
+
+gapi.analytics.ready(function() { 
   
-  /**
-   * Authorize the user immediately if the user has already granted access.
-   * If no access has been created, render an authorize button inside the
-   * element with the ID "embed-api-auth-container".
-   */
+  // Authorize the user immediately if the user has already granted access.
+  // If no access has been created, render an authorize button inside the
+  // element with the ID "embed-api-auth-container".
   gapi.analytics.auth.authorize({
     container: 'embed-api-auth-container',
     clientid: developerClientID
   });
 
+  // Charts to render on load
   renderWeekOverWeekChart();
   renderSessionsOverTime();
   renderYearOverYearChart();
@@ -18,41 +20,35 @@ gapi.analytics.ready(function() {
   renderTopCountriesChart();
   renderTopDevicesChart();
 
-    var customDateRange = {
-      'start-date': '7daysAgo',
-      'end-date': 'today'
-    };
+  // Dates and date range selector  
+  var customDateRange = {
+    'start-date': '7daysAgo',
+    'end-date': 'today'
+  };
 
-    var dateRangeSelector = new gapi.analytics.ext.DateRangeSelector({
-      container: 'date-range-selector-container'
-    })
-    .set(customDateRange)
-    .execute();
+  var dateRangeSelector = new gapi.analytics.ext.DateRangeSelector({
+    container: 'date-range-selector-container'
+  })
+  .set(customDateRange)
+  .execute();
 
-    dateRangeSelector.on('change', function(data) {
+  dateRangeSelector.on('change', function(data) {
+    var datefield = document.getElementById('from-dates');
+    datefield.textContent = data['start-date'] + ' - ' + data['end-date'];
+
+    // Charts to rerender when new dates are selected
+    renderSessionsOverTime(data['start-date'], data['end-date']);
+    renderTopBrowsersChart(data['start-date'], data['end-date']);
+    renderTopCountriesChart(data['start-date'], data['end-date']);
+    renderTopDevicesChart(data['start-date'], data['end-date']);
+  });
+
+/****************************
+*** Google Analytics Data ***
+****************************/
   
-      // Update the "from" dates text.
-      var datefield = document.getElementById('from-dates');
-      datefield.textContent = data['start-date'] + '&mdash;' + data['end-date'];
-
-      renderSessionsOverTime(data['start-date'], data['end-date']);
-      renderTopBrowsersChart(data['start-date'], data['end-date']);
-      renderTopCountriesChart(data['start-date'], data['end-date']);
-      renderTopDevicesChart(data['start-date'], data['end-date']);
-    });
-
-
-
-
-  /**
-   * Draw the a chart.js line chart with data from the specified view that
-   * overlays session data for the current week over session data for the
-   * previous week.
-   */
+  /** Compare this week's and last week's sessions **/
   function renderWeekOverWeekChart() {
-
-    // Adjust `now` to experiment with different days, for testing only...
-    var now = moment(); // .subtract(3, 'day');
 
     var thisWeek = query({
       'ids': analyticsViewID,
@@ -75,12 +71,11 @@ gapi.analytics.ready(function() {
       var data1 = results[0].rows.map(function(row) { return +row[2]; });
       var data2 = results[1].rows.map(function(row) { return +row[2]; });
       var labels = results[1].rows.map(function(row) { return +row[0]; });
-
-
       labels = labels.map(function(label) {
         return moment(label, 'YYYYMMDD').format('ddd');
       });
 
+      // Set chart styles
       var data = {
         labels : labels,
         datasets : [
@@ -103,22 +98,16 @@ gapi.analytics.ready(function() {
         ]
       };
 
+      // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-1-container')).Line(data);
       generateLegend('legend-1-container', data.datasets);
     });
   }
 
-
-  /**
-   * Draw the a chart.js bar chart with data from the specified view that
-   * overlays session data for the current year over session data for the
-   * previous year, grouped by month.
-   */
+  /** Compare this year's and last year's sessions **/
   function renderYearOverYearChart() {
 
-    // Adjust `now` to experiment with different days, for testing only...
-    var now = moment(); // .subtract(3, 'day');
-
+    var now = moment(); 
     var thisYear = query({
       'ids': analyticsViewID,
       'dimensions': 'ga:month,ga:nthMonth',
@@ -144,12 +133,12 @@ gapi.analytics.ready(function() {
                     'Jul','Aug','Sep','Oct','Nov','Dec'];
 
       // Ensure the data arrays are at least as long as the labels array.
-      // Chart.js bar charts don't (yet) accept sparse datasets.
       for (var i = 0, len = labels.length; i < len; i++) {
         if (data1[i] === undefined) data1[i] = null;
         if (data2[i] === undefined) data2[i] = null;
       }
 
+      // Set chart styles
       var data = {
         labels : labels,
         datasets : [
@@ -168,6 +157,7 @@ gapi.analytics.ready(function() {
         ]
       };
 
+      // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-2-container')).Bar(data);
       generateLegend('legend-2-container', data.datasets);
     })
@@ -176,11 +166,8 @@ gapi.analytics.ready(function() {
     });
   }
 
-
+  /** Total sessions in given time period (selected by datepicker) **/
   function renderSessionsOverTime(startDate, endDate) {
-
-    // Adjust `now` to experiment with different days, for testing only...
-    var now = moment(); // .subtract(3, 'day');
 
     var thisWeek = query({
       'ids': analyticsViewID,
@@ -195,11 +182,11 @@ gapi.analytics.ready(function() {
       var data1 = results[0].rows.map(function(row) { return +row[2]; });
       var labels = results[0].rows.map(function(row) { return +row[0]; });
 
-
       labels = labels.map(function(label) {
         return moment(label, 'YYYYMMDD').format('ddd');
       });
 
+      // Set chart styles
       var data = {
         labels : labels,
         datasets : [
@@ -214,17 +201,13 @@ gapi.analytics.ready(function() {
         ]
       };
 
+      // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-12-container')).Line(data);
       generateLegend('legend-12-container', data.datasets);
     });
   }
 
-
-
-  /**
-   * Draw the a chart.js doughnut chart with data from the specified view that
-   * show the top 5 browsers over the past seven days.
-   */
+  /** Top browsers in given time period (selected by datepicker) **/
   function renderTopBrowsersChart(startDate, endDate) {
 
     query({
@@ -232,43 +215,43 @@ gapi.analytics.ready(function() {
       'dimensions': 'ga:browser',
       'metrics': 'ga:pageviews',
       'sort': '-ga:pageviews',
-      'max-results': 5,
+      'max-results': 8,
       'start-date': startDate,
       'end-date': endDate
     })
     .then(function(response) {
 
       var data = [];
+
+      // Set chart styles
       var colors = ['#4D5360','#949FB1','#D4CCC5','#E2EAE9','#F7464A'];
 
       response.rows.forEach(function(row, i) {
         data.push({ value: +row[1], color: colors[i], label: row[0] });
       });
 
+      // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-3-container')).Doughnut(data);
       generateLegend('legend-3-container', data);
     });
   }
 
-
-  /**
-   * Draw the a chart.js doughnut chart with data from the specified view that
-   * compares sessions from mobile, desktop, and tablet over the past seven
-   * days.
-   */
+  /** Top countries in given time period (selected by datepicker) **/
   function renderTopCountriesChart(startDate, endDate) {
     query({
       'ids': analyticsViewID,
       'dimensions': 'ga:country',
       'metrics': 'ga:sessions',
       'sort': '-ga:sessions',
-      'max-results': 5,
+      'max-results': 8,
       'start-date': startDate,
       'end-date': endDate
     })
     .then(function(response) {
 
       var data = [];
+
+      // Set chart styles
       var colors = ['#4D5360','#949FB1','#D4CCC5','#E2EAE9','#F7464A'];
 
       response.rows.forEach(function(row, i) {
@@ -279,11 +262,13 @@ gapi.analytics.ready(function() {
         });
       });
 
+      // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-4-container')).Doughnut(data);
       generateLegend('legend-4-container', data);
     });
   }
 
+  /** Top devices in given time period (selected by datepicker) **/
   function renderTopDevicesChart(startDate, endDate) {
     query({
       'ids': analyticsViewID,
@@ -297,6 +282,8 @@ gapi.analytics.ready(function() {
     .then(function(response) {
 
       var data = [];
+
+      // Set chart styles
       var colors = ['#4D5360','#949FB1','#D4CCC5','#E2EAE9','#F7464A'];
 
       response.rows.forEach(function(row, i) {
@@ -307,11 +294,15 @@ gapi.analytics.ready(function() {
         });
       });
 
+      // Insert chart and legend into specified containers
       new Chart(makeCanvas('chart-5-container')).Doughnut(data);
       generateLegend('legend-5-container', data);
     });
   }
 
+/****************************
+** Chart.js Init and Style **
+****************************/
 
   /**
    * Extend the Embed APIs `gapi.analytics.report.Data` component to
