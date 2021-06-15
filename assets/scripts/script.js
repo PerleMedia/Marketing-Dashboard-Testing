@@ -17,7 +17,7 @@ gapi.analytics.ready(function() {
   renderWeeklyConversions();
   renderTopCitiesWeekChart();
   renderTopDevicesWeekChart();
-  renderTrafficSourcesWeekChart()
+  renderTopPagesWeekChart()
   renderSessionsOverTime();
   renderTopBrowsersChart();
   renderTopCountriesChart();
@@ -229,11 +229,11 @@ gapi.analytics.ready(function() {
     });
   }
 
-  /** Traffic Sources this week **/
-  function renderTrafficSourcesWeekChart() {
+  /** Top pages this week **/
+  function renderTopPagesWeekChart() {
     query({
       'ids': analyticsViewID,
-      'dimensions': 'ga:acquisitionTrafficChannel',
+      'dimensions': 'ga:pageTitle',
       'metrics': 'ga:users',
       'sort': '-ga:users',
       'max-results': 5,
